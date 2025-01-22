@@ -1,0 +1,7 @@
+# <file system> <mount point> <type> <options> <dump> <pass>
+/dev/sda1  /               ext4    defaults        1   1
+/dev/sda2  /home           ext4    defaults        1   2
+/dev/sdb1  /mnt/data       ntfs    defaults        0   0
+/dev/sdc1  /mnt/backup     ext4    defaults        0   0
+UUID=abcd1234-5678-90ef-ghij-1234567890kl /media/usb vfat defaults 0 0
+/dev/cdrom /mnt/cdrom     iso9660 ro,auto,user 0 0

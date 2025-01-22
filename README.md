@@ -6,11 +6,11 @@ Welcome to my Linux portfolio! This repository showcases my skills and projects 
 
 ## 📂 Contents
 
-1. [Scripts]
-2. [Configurations](#configurations)
-3. [System Logs](#system-logs)
-4. [Tutorials](#tutorials)
-5. [Personal Projects](#personal-projects)
+1. Scripts
+2. Configurations
+3. System Logs
+4. Tutorials
+5. Personal Projects
 
 ---
 

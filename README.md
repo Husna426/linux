@@ -29,9 +29,9 @@ Welcome to my Linux portfolio! This repository showcases my skills and projects 
 
 Explore various automation scripts I have developed:
 
-- **Backup Script:** Automates daily backups and saves them with timestamps ([https://github.com/Husna426/linux/blob/main/back%20up%20script](scripts/backup.sh))
-- **User Management:** A script to add, delete, and list users ([View Script](scripts/user_management.sh))
-- **System Monitor:** Lightweight monitoring tool for CPU and memory usage ([View Script](scripts/system_monitor.sh))
+- **Backup Script:** Automates daily backups and saves them with timestamps ([https://github.com/Husna426/linux/blob/main/back%20up%20script])
+- **User Management:** A script to add, delete, and list users ([https://github.com/Husna426/linux/blob/main/User%20Management])
+- **System Monitor:** Lightweight monitoring tool for CPU and memory usage ([https://github.com/Husna426/linux/blob/main/system%20monitor])
 
 ---
 
@@ -39,20 +39,19 @@ Explore various automation scripts I have developed:
 
 Examples of configuration files:
 
-- **Web Server (Nginx):** Custom configuration for hosting multiple websites ([View Config](configurations/nginx.conf))
-- **Shell Customization:** Personalized `.bashrc` for productivity ([View Config](configurations/bashrc))
-- **Filesystem:** Example `fstab` file for automatic mounting ([View Config](configurations/fstab))
+- **Web Server (Nginx):** Custom configuration for hosting multiple websites ([https://github.com/Husna426/linux/blob/main/Web%20Server])
+- **Shell Customization:** Personalized `.bashrc` for productivity ([https://github.com/Husna426/linux/blob/main/shell%20customization])
+- **Filesystem:** Example `fstab` file for automatic mounting ([https://github.com/Husna426/linux/blob/main/File%20system])
 
 ---
 
 ## 🪛 System Logs
 
 Samples of anonymized logs and debugging processes:
+(https://github.com/Husna426/linux/blob/main/system%20monitor])
 
-- **Kernel Debugging:** Troubleshooting a boot issue ([View Logs](system-logs/kernel_debug.md))
-- **Service Failure:** Debugging a failed service restart ([View Logs](system-logs/service_failure.md))
 
----
+--
 
 ## 📘 Tutorials
 
@@ -60,7 +59,7 @@ Step-by-step guides:
 
 - **Setting Up a LAMP Stack:** Comprehensive guide for beginners ([View Tutorial](tutorials/lamp_stack.md))
 - **Firewall Basics:** Configuring `iptables` and `ufw` ([View Tutorial](tutorials/firewall_basics.md))
-- **Linux File Permissions:** Explaining `chmod`, `chown`, and more ([View Tutorial](tutorials/file_permissions.md))
+- **Linux File Permissions:** Explaining `chmod`, `chown`, and more ([https://github.com/Husna426/linux/blob/main/File%20system])
 
 ---
 
@@ -68,9 +67,9 @@ Step-by-step guides:
 
 Highlights of my projects:
 
-- **Custom Linux Distro:** Built a minimal Linux distro for educational purposes ([View Project](personal-projects/custom_distro.md))
-- **Virtual Machine Setup:** Automated VM creation with Vagrant and KVM ([View Project](personal-projects/vm_setup.md))
-- **Containerized Web App:** Deployed a full-stack web application using Docker ([View Project](personal-projects/docker_webapp.md))
+- **Custom Linux Distro:** Built a minimal Linux distro for educational purposes ([https://github.com/Husna426/linux/blob/main/Custom%20Linux%20Distro%3A])
+- **Virtual Machine Setup:** Automated VM creation with Vagrant and KVM ([https://github.com/Husna426/linux/blob/main/virtual%20machine])
+- **Containerized Web App:** Deployed a full-stack web application using Docker ([https://github.com/Husna426/linux/blob/main/Containerized%20Web%20App])
 
 ---
 

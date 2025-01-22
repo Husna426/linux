@@ -1,0 +1,127 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - FLASK_ENV=development
+    command: python app.py
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    command: yarn start
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+
+---
+# backend/Dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+---
+# backend/app.py
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/api', methods=['GET'])
+def home():
+    return jsonify(message="Hello from the backend!")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
+
+---
+# backend/requirements.txt
+Flask==2.1.1
+
+---
+# frontend/Dockerfile
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]
+
+---
+# frontend/package.json
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  }
+}
+
+---
+# frontend/src/App.js
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    axios.get("/api").then((response) => {
+      setMessage(response.data.message);
+    });
+  }, []);
+
+  return <div><h1>{message}</h1></div>;
+}
+
+export default App;

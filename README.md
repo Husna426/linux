@@ -57,8 +57,8 @@ Samples of anonymized logs and debugging processes:
 
 Step-by-step guides:
 
-- **Setting Up a LAMP Stack:** Comprehensive guide for beginners ([View Tutorial](tutorials/lamp_stack.md))
-- **Firewall Basics:** Configuring `iptables` and `ufw` ([View Tutorial](tutorials/firewall_basics.md))
+- **Setting Up a LAMP Stack:** Comprehensive guide for beginners ([https://github.com/Husna426/linux/blob/main/Setting%20up%20a%20LAMP%20stack])
+- **Firewall Basics:** Configuring `iptables` and `ufw` ([https://github.com/Husna426/linux/blob/main/Firewall%20Basics])
 - **Linux File Permissions:** Explaining `chmod`, `chown`, and more ([https://github.com/Husna426/linux/blob/main/File%20system])
 
 ---

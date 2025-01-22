@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Variables
+BUILDROOT_VERSION="2023.02"  # Adjust version as needed
+BUILDROOT_URL="https://buildroot.org/downloads/buildroot-${BUILDROOT_VERSION}.tar.gz"
+TARGET_DIR="$HOME/minimal_linux"
+
+# Update and install required dependencies
+echo "Updating and installing required dependencies..."
+sudo apt update && sudo apt install -y build-essential gcc git libncurses-dev xz-utils unzip wget
+
+# Create target directory
+echo "Setting up build directory at ${TARGET_DIR}..."
+mkdir -p "$TARGET_DIR"
+cd "$TARGET_DIR" || exit
+
+# Download Buildroot
+if [ ! -f "buildroot-${BUILDROOT_VERSION}.tar.gz" ]; then
+    echo "Downloading Buildroot version ${BUILDROOT_VERSION}..."
+    wget "$BUILDROOT_URL"
+fi
+
+# Extract Buildroot
+if [ ! -d "buildroot-${BUILDROOT_VERSION}" ]; then
+    echo "Extracting Buildroot..."
+    tar -xzf "buildroot-${BUILDROOT_VERSION}.tar.gz"
+fi
+
+# Enter Buildroot directory
+cd "buildroot-${BUILDROOT_VERSION}" || exit
+
+# Configure Buildroot
+echo "Configuring Buildroot..."
+make menuconfig
+
+# Default Buildroot Configuration Options
+# - Target Architecture: Select appropriate architecture (e.g., x86_64, ARM)
+# - Build Options: Minimal configuration
+# - BusyBox: Enable as the core userland
+# - Filesystem: Choose ext4 or initramfs
+# - Kernel: Enable minimal Linux kernel with basic drivers
+
+# Start Buildroot Build
+echo "Building the Linux distribution..."
+make -j$(nproc)
+
+# Output location
+OUTPUT_DIR="$(pwd)/output"
+echo "Build completed! Files are available in ${OUTPUT_DIR}."
+
+# Run the system with QEMU
+read -p "Do you want to run the system in QEMU? (y/n): " RUN_QEMU
+if [ "$RUN_QEMU" == "y" ]; then
+    if [ ! -f "$(which qemu-system-x86_64)" ]; then
+        echo "Installing QEMU..."
+        sudo apt install -y qemu-system
+    fi
+
+    echo "Launching minimal Linux with QEMU..."
+    qemu-system-x86_64 -kernel "${OUTPUT_DIR}/images/bzImage" \
+        -append "console=ttyS0 root=/dev/sda rw" \
+        -hda "${OUTPUT_DIR}/images/rootfs.ext4" \
+        -nographic
+fi
+
+# Cleanup
+echo "Custom Linux build is complete! To customize further, modify Buildroot configuration and rebuild."

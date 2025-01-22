@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# 1. Check boot logs
+echo "Checking dmesg logs for boot-related issues..."
+dmesg | less
+echo "You can also check /var/log/kern.log and /var/log/syslog for more information."
+
+# 2. Use recovery mode (This requires manual interaction during boot)
+echo "If your system failed to boot, use the recovery mode (Advanced options in GRUB) to access minimal system environment."
+
+# 3. Examine GRUB configuration
+echo "Examining GRUB configuration..."
+GRUB_FILE="/etc/default/grub"
+if [ -f "$GRUB_FILE" ]; then
+    echo "Editing GRUB configuration..."
+    sudo nano $GRUB_FILE
+    echo "Ensure that GRUB_CMDLINE_LINUX contains the correct 'root' partition and boot options."
+    sudo update-grub
+else
+    echo "GRUB configuration file not found. Ensure your bootloader is properly configured."
+fi
+
+# 4. Check for Kernel Panic (Kernel panic messages can be captured during boot)
+echo "If a kernel panic occurs, identify the error message, and look for clues such as 'unable to mount root filesystem'."
+
+# 5. Rebuild initramfs (for issues related to initramfs)
+echo "Rebuilding initramfs..."
+sudo update-initramfs -u
+
+# 6. Check disk and filesystem integrity (run fsck on the root partition)
+echo "Checking filesystem integrity..."
+# Replace '/dev/sda1' with the root partition (or other partitions as needed)
+sudo fsck /dev/sda1
+echo "Follow the prompts to fix any detected issues."
+
+# 7. List and load necessary kernel modules
+echo "Listing currently loaded kernel modules..."
+lsmod
+echo "If any module is missing or incorrect, load it manually using: sudo modprobe <module_name>"
+
+# 8. Reinstall or upgrade the kernel (if the kernel is corrupted or incompatible)
+echo "Reinstalling or upgrading the kernel..."
+# Replace '<version>' with the appropriate kernel version
+sudo apt-get install --reinstall linux-image-<version>
+
+# 9. Enable kernel debugging and trace logs (Add 'debug' to kernel boot parameters)
+echo "Enabling kernel debugging..."
+GRUB_CMDLINE="debug"
+if grep -q "$GRUB_CMDLINE" /etc/default/grub; then
+    echo "Debugging already enabled."
+else
+    sudo sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 debug\"/" /etc/default/grub
+    sudo update-grub
+    echo "Kernel debugging enabled. Reboot and check the logs for detailed information."
+fi
+
+# 10. Check for hardware issues
+echo "Checking for hardware issues..."
+echo "Run memory tests using memtest86 (if applicable)."
+echo "Check disk health using smartmontools (e.g., sudo smartctl -a /dev/sda)."
+
+# 11. Notes
+echo "Remember to reboot your system after making changes. Use the following to reboot:"
+echo "sudo reboot"

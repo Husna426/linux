@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Update package list and upgrade installed packages
+echo "Updating package list and upgrading installed packages..."
+sudo apt update -y && sudo apt upgrade -y
+
+# Install common packages
+echo "Installing common packages..."
+sudo apt install -y curl wget git vim htop
+
+# Configure firewall (e.g., UFW - Uncomplicated Firewall)
+echo "Configuring firewall (UFW)..."
+sudo ufw allow OpenSSH
+sudo ufw enable
+
+# Set the timezone to UTC
+echo "Setting the timezone to UTC..."
+sudo timedatectl set-timezone UTC
+
+# Create a user and set permissions
+USER_NAME="newuser"
+echo "Creating user $USER_NAME..."
+sudo useradd -m -s /bin/bash $USER_NAME
+sudo passwd $USER_NAME
+
+# Add the user to the sudo group for administrative privileges
+echo "Adding $USER_NAME to sudo group..."
+sudo usermod -aG sudo $USER_NAME
+
+# Set up a simple cron job for daily backups (example)
+echo "Setting up daily backup cron job..."
+(crontab -l ; echo "0 2 * * * /usr/bin/rsync -a /home/ /backup/") | crontab -
+
+# Clean up the system
+echo "Cleaning up the system..."
+sudo apt autoremove -y && sudo apt autoclean -y
+
+# Display system information
+echo "System information:"
+hostnamectl
+df -h
+free -m
+uptime
+
+echo "Configuration complete."
+chmod +x config_script.sh
+sudo ./config_script.sh

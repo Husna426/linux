@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Function to check Docker status
+check_docker() {
+    echo "Checking Docker status..."
+    systemctl is-active --quiet docker && echo "Docker is running" || echo "Docker is not running"
+}
+
+# Function to list all running Docker containers
+list_docker_containers() {
+    echo "Listing all running Docker containers..."
+    docker ps
+}
+
+# Function to start a Docker container
+start_docker_container() {
+    echo "Enter the container ID or name to start:"
+    read container_id
+    docker start "$container_id" && echo "Container $container_id started successfully" || echo "Failed to start container $container_id"
+}
+
+# Function to stop a Docker container
+stop_docker_container() {
+    echo "Enter the container ID or name to stop:"
+    read container_id
+    docker stop "$container_id" && echo "Container $container_id stopped successfully" || echo "Failed to stop container $container_id"
+}
+
+# Function to list all KVM virtual machines
+list_kvm_vms() {
+    echo "Listing all KVM virtual machines..."
+    virsh list --all
+}
+
+# Function to start a KVM virtual machine
+start_kvm_vm() {
+    echo "Enter the name of the KVM virtual machine to start:"
+    read vm_name
+    virsh start "$vm_name" && echo "VM $vm_name started successfully" || echo "Failed to start VM $vm_name"
+}
+
+# Function to stop a KVM virtual machine
+stop_kvm_vm() {
+    echo "Enter the name of the KVM virtual machine to stop:"
+    read vm_name
+    virsh shutdown "$vm_name" && echo "VM $vm_name shut down successfully" || echo "Failed to shut down VM $vm_name"
+}
+
+# Menu to choose the action
+while true; do
+    echo "Choose an option:"
+    echo "1) Check Docker status"
+    echo "2) List Docker containers"
+    echo "3) Start Docker container"
+    echo "4) Stop Docker container"
+    echo "5) List KVM virtual machines"
+    echo "6) Start KVM virtual machine"
+    echo "7) Stop KVM virtual machine"
+    echo "8) Exit"
+    read -p "Enter your choice [1-8]: " choice
+
+    case $choice in
+        1) check_docker ;;
+        2) list_docker_containers ;;
+        3) start_docker_container ;;
+        4) stop_docker_container ;;
+        5) list_kvm_vms ;;
+        6) start_kvm_vm ;;
+        7) stop_kvm_vm ;;
+        8) exit 0 ;;
+        *) echo "Invalid choice, please try again." ;;
+    esac
+done

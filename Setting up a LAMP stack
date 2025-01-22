@@ -1,0 +1,127 @@
+# Step 1: Update your system
+sudo apt update
+sudo apt upgrade -y
+
+# Step 2: Install Apache Web Server
+sudo apt install apache2 -y
+
+# Start Apache
+sudo systemctl start apache2
+
+# Enable Apache to start on boot
+sudo systemctl enable apache2
+
+# Check if Apache is running
+sudo systemctl status apache2
+
+# Step 3: Install MySQL Database Server
+sudo apt install mysql-server -y
+
+# Secure MySQL Installation
+sudo mysql_secure_installation
+
+# Start MySQL
+sudo systemctl start mysql
+
+# Enable MySQL to start on boot
+sudo systemctl enable mysql
+
+# Check if MySQL is running
+sudo systemctl status mysql
+
+# Step 4: Install PHP and PHP Modules
+sudo apt install php libapache2-mod-php php-mysql -y
+
+# Step 5: Create a Test PHP File
+sudo nano /var/www/html/info.php
+# Add the following code in the file:
+# <?php
+# phpinfo();
+# ?>
+
+# Visit the test file in your browser: http://<your_server_ip>/info.php
+
+# Step 6: Adjust Apache Configuration to Prioritize PHP Files
+sudo nano /etc/apache2/mods-enabled/dir.conf
+# Ensure index.php appears before index.html like this:
+# <IfModule mod_dir.c>
+#   DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+# </IfModule>
+
+# Restart Apache to apply changes
+sudo systemctl restart apache2
+
+# Step 7: Test Apache, MySQL, and PHP Together
+# Create a PHP file to test MySQL connection
+sudo nano /var/www/html/dbtest.php
+# Add the following code:
+# <?php
+# $servername = "localhost";
+# $username = "root";  // MySQL root user
+# $password = "";      // MySQL root password
+# $dbname = "testdb";  // Create a test database in MySQL
+#
+# // Create connection
+# $conn = new mysqli($servername, $username, $password, $dbname);
+#
+# // Check connection
+# if ($conn->connect_error) {
+#     die("Connection failed: " . $conn->connect_error);
+# }
+# echo "Connected successfully";
+# ?>
+# Visit the test file in your browser: http://<your_server_ip>/dbtest.php
+
+# Step 8: Create a Basic MySQL Database
+# Log into MySQL
+sudo mysql -u root -p
+
+# Create a new database
+CREATE DATABASE testdb;
+
+# Create a new MySQL user and grant privileges
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON testdb.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+# Exit MySQL
+EXIT;
+
+# Step 9: Enable .htaccess (Optional)
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+
+# Configure .htaccess settings
+sudo nano /etc/apache2/sites-available/000-default.conf
+# Ensure Directory block allows .htaccess override:
+# <Directory /var/www/html>
+#     AllowOverride All
+# </Directory>
+
+# Restart Apache for changes to take effect
+sudo systemctl restart apache2
+
+# Step 10: Configure Firewall (Optional)
+# Allow HTTP and HTTPS traffic
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Enable firewall
+sudo ufw enable
+
+# Step 11: Install phpMyAdmin (Optional)
+sudo apt install phpmyadmin -y
+
+# During installation, configure phpMyAdmin with MySQL and choose Apache as the web server
+
+# Access phpMyAdmin at: http://<your_server_ip>/phpmyadmin
+
+# Step 12: (Optional) Install SSL (for secure HTTPS access)
+# Install SSL
+sudo apt install certbot python3-certbot-apache -y
+
+# Obtain SSL certificate for your domain (replace example.com with your domain)
+sudo certbot --apache -d example.com
+
+# Enable SSL automatically
+sudo systemctl enable apache2

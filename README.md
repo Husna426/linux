@@ -29,7 +29,7 @@ Welcome to my Linux portfolio! This repository showcases my skills and projects 
 
 Explore various automation scripts I have developed:
 
-- **Backup Script:** Automates daily backups and saves them with timestamps ([https://github.com/Husna426/linux/blob/main/back%20up%20script])
+- **Backup Script:** Automates daily backups and saves them with timestamps[Script] (https://github.com/Husna426/linux/blob/main/back%20up%20script)
 - **User Management:** A script to add, delete, and list users ([https://github.com/Husna426/linux/blob/main/User%20Management])
 - **System Monitor:** Lightweight monitoring tool for CPU and memory usage ([https://github.com/Husna426/linux/blob/main/system%20monitor])
 

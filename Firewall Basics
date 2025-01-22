@@ -1,0 +1,82 @@
+# --- Step 1: Check current iptables rules ---
+sudo iptables -L
+
+# --- Step 2: Set Default iptables Policies ---
+# Set default policies to drop all incoming and forwarded traffic, allow outgoing traffic
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT ACCEPT
+
+# --- Step 3: Allow Specific Traffic in iptables ---
+# Allow SSH (port 22) and HTTP (port 80) traffic
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# --- Step 4: Allow Traffic from Specific IP Address in iptables ---
+# Allow SSH from a specific IP (replace <source_ip> with the IP you want to allow)
+sudo iptables -A INPUT -p tcp -s <source_ip> --dport 22 -j ACCEPT
+
+# --- Step 5: Block an IP Address in iptables ---
+# Block a specific IP address (replace <source_ip> with the IP you want to block)
+sudo iptables -A INPUT -s <source_ip> -j DROP
+
+# --- Step 6: Save iptables Rules ---
+# Save iptables rules to make them persistent (Ubuntu-based systems)
+sudo iptables-save > /etc/iptables/rules.v4
+
+# --- Step 7: Flush iptables Rules (if needed) ---
+# To clear all iptables rules
+sudo iptables -F
+
+# --- Step 8: Install ufw if not installed ---
+# Install ufw (Uncomplicated Firewall)
+sudo apt install ufw -y
+
+# --- Step 9: Enable ufw ---
+# Enable ufw firewall
+sudo ufw enable
+
+# --- Step 10: Check ufw Status ---
+# Check the status of ufw and current rules
+sudo ufw status verbose
+
+# --- Step 11: Allow Specific Traffic in ufw ---
+# Allow SSH (port 22) and HTTP (port 80) traffic
+sudo ufw allow 22
+sudo ufw allow 80
+
+# --- Step 12: Allow Traffic from Specific IP in ufw ---
+# Allow SSH from a specific IP address (replace <source_ip> with the IP you want to allow)
+sudo ufw allow from <source_ip> to any port 22
+
+# --- Step 13: Deny Specific Traffic in ufw ---
+# Deny all traffic from a specific IP address (replace <source_ip> with the IP you want to block)
+sudo ufw deny from <source_ip>
+
+# --- Step 14: Set Default Policies in ufw ---
+# Set default policies to deny incoming traffic and allow outgoing traffic
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# --- Step 15: Reset ufw to Default Rules (if needed) ---
+# Reset ufw and remove all rules
+sudo ufw reset
+
+# --- Step 16: Disable ufw (if needed) ---
+# Disable ufw firewall
+sudo ufw disable
+
+# --- Step 17: Install and Enable SSL for Apache (Optional) ---
+# Install Certbot for SSL
+sudo apt install certbot python3-certbot-apache -y
+
+# Obtain SSL certificate for your domain (replace example.com with your actual domain)
+sudo certbot --apache -d example.com
+
+# --- Step 18: Enable ufw Logging (Optional) ---
+# Enable logging to track denied traffic
+sudo ufw logging on
+
+# --- Step 19: Limit SSH Connections (Optional) ---
+# Enable rate limiting on SSH to prevent brute-force attacks
+sudo ufw limit 22

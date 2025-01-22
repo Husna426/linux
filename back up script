@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Backup Script
+
+# Variables
+SOURCE_DIR="/path/to/source/directory" # Replace with the directory you want to back up
+BACKUP_DIR="/path/to/backup/location" # Replace with your backup location
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")   # Current timestamp
+BACKUP_FILE="$BACKUP_DIR/backup_$TIMESTAMP.tar.gz"
+
+# Create backup
+echo "Starting backup of $SOURCE_DIR to $BACKUP_FILE..."
+if tar -czf "$BACKUP_FILE" "$SOURCE_DIR"; then
+    echo "Backup completed successfully!"
+else
+    echo "Error: Backup failed!" >&2
+    exit 1
+fi
+
+# Optional: Remove backups older than 7 days
+echo "Cleaning up old backups..."
+find "$BACKUP_DIR" -type f -name "backup_*.tar.gz" -mtime +7 -exec rm {} \;
+echo "Old backups removed."
+
+echo "Backup process completed!"
+
+chmod +x backup.sh
+./backup.sh

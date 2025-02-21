@@ -77,8 +77,8 @@ Highlights of my projects:
 
 Feel free to connect with me:
 
-- **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
-- **Email:** [youremail@example.com](mailto:youremail@example.com)
+- **LinkedIn:** [www.linkedin.com/in/husna-a-o-2a0b91323](https://linkedin.com/in/yourprofile)
+- **Email:** [agboolahusna@gmail.com](mailto:youremail@example.com)
 
 ---
 
